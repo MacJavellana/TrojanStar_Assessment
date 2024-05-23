@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
 
-def retry_database_connection(max_retries=3, interval=5):
+def retry_database_connection(max_retries=10, interval=5):
     retries = 0
     while retries < max_retries:
         try:

@@ -1,2 +1,3 @@
-CREATE DATABASE RecipeAppDB
+use master;
+CREATE DATABASE RecipeAppDB;
 GO
