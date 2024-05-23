@@ -148,14 +148,16 @@ def add_comment(recipe_id):
         return jsonify({"error": str(e)}), 500
 
 
-@recipes_bp.route("/<int:id>/search/", methods=["GET"])
-def search_recipes(id: int):
+
+
+@recipes_bp.route("/<string:id>/search/", methods=["GET"])
+def search_recipes(id: str):
     try:
         # Retrieve the query parameter from the request
-        query = int(request.args.get('query'))
+        query = request.args.get('query')
         
-        # Perform a case-insensitive search on recipe names
-        recipes = Recipe.query.filter(Recipe.id == query).all()
+        # Perform a case-insensitive search on recipe names, ingredients, or steps
+        recipes = Recipe.query.filter(Recipe.name.ilike(f"%{query}%")).all()
         
         return render_template('search.html', Recipes=recipes)
     except Exception as e:
