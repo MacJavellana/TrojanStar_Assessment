@@ -1,0 +1,71 @@
+{% extends 'base.html'%}
+
+{% block body %}
+
+
+
+    <div>
+        <form action="/" method="GET" id="searchForm">
+            <input type="number" name="query" id="query" placeholder="Search recipes">
+            <input type="submit" value="Search">
+        </form>
+    </div>
+
+
+    {% if Recipes | length < 1 %}
+        <h3>No Recipes</h3>
+    {% else %}
+    <div>
+        <h1>Recipies</h1>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>ingredients</th>
+                <th>steps</th>
+                <th>preparation time</th>
+                <th>created at</th>
+                <th>Actions</th>
+            </tr>
+            {% for Recipe in Recipes %}
+                <tr>
+                    <td>{{Recipe.id}}</td>
+                    <td>{{Recipe.name}}</td>
+                    <td>{{Recipe.ingredients}}</td>
+                    <td>{{Recipe.steps}}</td>
+                    <td>{{Recipe.preparation_time}}</td>
+                    <td>{{Recipe.created_at}}</td>
+                    <td>
+                        <button class="edit-btn" data-id="/{{ Recipe.id }}">Edit</button>
+                        <button onclick="window.location.href='/recipes/delete/{{ Recipe.id }}'">Delete</button>
+                        <button onclick="window.location.href='/recipes/{{ Recipe.id }}/comments'">Comments</button>
+                        <button onclick="window.location.href='/recipes/{{ Recipe.id }}/ratings'">Ratings</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif%}
+    <div>
+        <form action="/recipes" method="POST">
+            <input type="text" name="name" id="name" placeholder="name" required/>
+            <input type="text" name="ingredients" id="ingredients" placeholder="ingredients" required/>
+            <input type="text" name="steps" id="steps"placeholder="steps" required/>
+            <input type="number" name="preparation_time" id="preparation_time" placeholder="preparation time" required/>
+            <input type="submit"  id="btn_add" value="Post">
+        </form>
+    </div>
+    <div id="edit-modal" style="display:none;">
+        <form id="edit-form">
+            <input type="hidden" id="edit-recipe-id" name="id">
+            <input type="text" id="edit-recipe-name" name="name" placeholder="Name" required>
+            <input type="text" id="edit-recipe-ingredients" name="ingredients" placeholder="Ingredients" required>
+            <input type="text" id="edit-recipe-steps" name="steps" placeholder="Steps" required>
+            <input type="number" id="edit-recipe-preparation-time" name="preparation_time" placeholder="Preparation Time" required>
+            <input type="submit" value="Save Changes">
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+{% endblock %}

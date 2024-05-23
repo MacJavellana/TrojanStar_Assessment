@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1>Rating for {{ recipe.name }}</h1>
+    <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+    <p><strong>Steps:</strong> {{ recipe.steps }}</p>
+    <p><strong>Preparation Time:</strong> {{ recipe.preparation_time }} minutes</p>
+
+    <h2>Ratings</h2>
+    {% if recipe.ratings | length < 1 %}
+        <p>No ratings yet.</p>
+    {% else %}
+        <ul>
+            {% for rating in recipe.ratings %}
+                <li>{{ rating.rate }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h2>Add Comment</h2>
+    <form action="/recipes/{{ recipe.id }}/ratings/" method="POST">
+        <input type="range" id="rate" name="rate" min="1" max="5"/>
+        <input type="submit" value="Submit Rating">
+    </form>
+{% endblock %}

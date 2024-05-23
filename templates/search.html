@@ -1,0 +1,54 @@
+{% extends 'base.html'%}
+
+{% block body %}
+
+    <h1>Search Results</h1>
+    <p>Showing search results for {{ request.args.get('query') }}</p>
+
+    {% if Recipes | length < 1 %}
+        <h3>No Recipes</h3>
+    {% else %}
+    <div>
+        <h1>Recipies</h1>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>ingredients</th>
+                <th>steps</th>
+                <th>preparation time</th>
+                <th>created at</th>
+                <th>Actions</th>
+            </tr>
+            {% for Recipe in Recipes %}
+                <tr>
+                    <td>{{Recipe.id}}</td>
+                    <td>{{Recipe.name}}</td>
+                    <td>{{Recipe.ingredients}}</td>
+                    <td>{{Recipe.steps}}</td>
+                    <td>{{Recipe.preparation_time}}</td>
+                    <td>{{Recipe.created_at}}</td>
+                    <td>
+                        <button class="edit-btn" data-id="/{{ Recipe.id }}">Edit</button>
+                        <button onclick="window.location.href='/recipes/delete/{{ Recipe.id }}'">Delete</button>
+                        <button onclick="window.location.href='/recipes/{{ Recipe.id }}/comments'">Comments</button>
+                        <button onclick="window.location.href='/recipes/{{ Recipe.id }}/ratings'">Ratings</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div id="edit-modal" style="display:none;">
+        <form id="edit-form">
+            <input type="hidden" id="edit-recipe-id" name="id">
+            <input type="text" id="edit-recipe-name" name="name" placeholder="Name" required>
+            <input type="text" id="edit-recipe-ingredients" name="ingredients" placeholder="Ingredients" required>
+            <input type="text" id="edit-recipe-steps" name="steps" placeholder="Steps" required>
+            <input type="number" id="edit-recipe-preparation-time" name="preparation_time" placeholder="Preparation Time" required>
+            <input type="submit" value="Save Changes">
+        </form>
+    </div>
+    {% endif%}
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}

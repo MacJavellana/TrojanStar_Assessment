@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1>Comments for {{ recipe.name }}</h1>
+    <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+    <p><strong>Steps:</strong> {{ recipe.steps }}</p>
+    <p><strong>Preparation Time:</strong> {{ recipe.preparation_time }} minutes</p>
+
+    <h2>Comments</h2>
+    {% if recipe.comments | length < 1 %}
+        <p>No comments yet.</p>
+    {% else %}
+        <ul>
+            {% for comment in recipe.comments %}
+                <li>{{ comment.text }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h2>Add Comment</h2>
+    <form action="/recipes/{{ recipe.id }}/comments/" method="POST">
+        <textarea name="text" placeholder="Add your comment" required></textarea>
+        <input type="submit" value="Post Comment">
+    </form>
+{% endblock %}
