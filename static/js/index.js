@@ -44,20 +44,13 @@
 
     const form = document.getElementById('searchForm');
 
-    // Add event listener to the form submission
     form.addEventListener('submit', function(event) {
-        // Prevent the default form submission behavior
         event.preventDefault();
 
-        // Get the value entered in the query input field
         const query = document.getElementById('query').value;
-
-        // Construct the new action URL based on the query value
         const actionUrl = `/recipes/${query}/search`;
 
-        // Update the form action attribute
         form.action = actionUrl;
 
-        // Submit the form
         form.submit();
     });

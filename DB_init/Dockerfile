@@ -7,7 +7,7 @@ COPY . /usr/src/app
 
 ENV ACCEPT_EULA Y
 ENV MSSQL_SA_PASSWORD YourStrong!Passw0rd
-
+ENV MSSQL_PID Express
 
 
 EXPOSE 1433
